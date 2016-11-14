@@ -66,7 +66,7 @@ app.post('/pets', function(req, res) {
     }
     var pets = JSON.parse(petsJSON);
     if (req.body.name && req.body.age && req.body.kind) {
-      if (Number.isInteger(req.body.age)) {
+      if (isNaN(req.body.age)) {
         console.log("age must be a number");
         return res.sendStatus(400);
       }
@@ -97,9 +97,13 @@ app.put('/pets/:index', function(req, res) {
     var pets = JSON.parse(parseJSON);
     var index = req.params.index;
 
-    // Is index valid?
+    if (index < 0 || index > pets.length || Number.isNaN(index)) {
+      console.log("index is not valid");
+      return res.sendStatus(400);
+    }
+
     if (req.body.name && req.body.age && req.body.kind) {
-      if (Number.isInteger(req.body.age)) {
+      if (isNaN(req.body.age)) {
         console.log("age must be a number");
         return res.sendStatus(400);
       }
@@ -116,6 +120,46 @@ app.put('/pets/:index', function(req, res) {
       console.log("invalid params");
       return res.sendStatus(400);
     }
+  });
+});
+
+app.patch('/pets/:index', function (req, res) {
+  fs.readFile(petsPath, 'utf8', function(err, parseJSON) {
+    if (err) {
+      console.log(err);
+      return res.sendStatus(500);
+    }
+
+    var pets = JSON.parse(parseJSON);
+    var index = req.params.index;
+
+    if (index < 0 || index > pets.length || Number.isNaN(index)) {
+      console.log("index is not valid");
+      return res.sendStatus(400);
+    }
+
+    if (req.body.name) {
+      pets[index].name = req.body.name;
+    }
+    if (req.body.age) {
+      // ParseInt and isNaN don't mix?
+      if (isNaN(req.body.age)) {
+        console.log("age must be a number");
+        return res.sendStatus(400);
+      }
+      pets[index].age = req.body.age;
+    }
+    if (req.body.kind) {
+      pets[index].kind = req.body.kind;
+    }
+
+    fs.writeFile(petsPath, JSON.stringify(pets), function(writeErr) {
+      if (writeErr) {
+        throw writeErr;
+      }
+    });
+    res.set('Content-Type', 'application/json');
+    res.send(pets[index]);
   });
 });
 
