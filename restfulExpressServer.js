@@ -15,6 +15,17 @@ var fs = require('fs');
 var path = require('path');
 var petsPath = path.join(__dirname, 'pets.json');
 
+// everything in this folder is a static file and we want to gain access
+app.use(express.static('public'));
+
+// let's skip to the next middleware
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods","GET,POST,PATCH,PUT,DELETE");
+  next();
+});
+
 app.get('/:path', function (req, res) {
 
   if (req.params.path === "pets") {
@@ -26,6 +37,7 @@ app.get('/:path', function (req, res) {
       var pets = JSON.parse(petsJSON);
 
       res.set('Content-Type', 'application/json');
+      console.log(pets, typeof pets);
       res.send(pets);
 
     });
@@ -59,6 +71,9 @@ app.get('/', function (req, res) {
 });
 
 app.post('/pets', function(req, res) {
+
+  console.log(req.body);
+  
   fs.readFile(petsPath, 'utf8', function(err, petsJSON) {
     if (err) {
       console.error(err);

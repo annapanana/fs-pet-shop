@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pet Shop</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" defer></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css" media="screen" title="no title">
+  </head>
+  <body>
+    <div class="container">
+      <h3>Get Pet Data</h3>
+      <input id="get_pet_names" type="button" name="name" value="Get Pet Names">
+      <br><br>
+      <table id="pet_data"></table>
+      <!-- TODO turn the data into a table -->
+      <h3>Add a Pet</h3>
+      <div class="text_field">
+        <label for="pet_name">Enter Pet Name</label><br>
+        <input id="new_pet_name" type="text" name="pet_name" value="name">
+      </div>
+      <div class="text_field">
+        <br>
+        <label for="pet_age">Enter Pet Age</label><br>
+        <input id="new_pet_age" type="text" name="pet_age" value="age">
+      </div>
+      <div class="text_field">
+        <br>
+        <label for="pet_kind">Enter Pet Kind</label><br>
+        <input id="new_pet_kind" type="text" name="pet_kind" value="kind">
+      </div>
+      <div class="form_enter">
+        <br>
+        <input id="add_pet" type="button" name="add_pet_button" value="Add New Pet">
+      </div>
+      <h3>Delete Pet By Index</h3>
+      <div class="text_field">
+        <label for="pet_index">Pet Index</label>
+        <input id="pet_index" type="text" name="name" value="0">
+      </div>
+      <div class="form_enter">
+        <br>
+        <input id="remove_pet" type="button" name="name" value="Remove Pet">
+      </div>
+    </div>
+  </body>
+</html>
